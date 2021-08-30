@@ -29,3 +29,11 @@ message OpResponse{
     // UserInfo with additional information to show to the user.
     string user_info = 3;
 }
+
+// TokenResponse is the message that contains the generated token and the refresh token.
+message TokenResponse {
+    // Token generated.
+    string token = 1;
+    // RefreshToken.
+    string refresh_token = 2;
+}
