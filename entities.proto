@@ -36,4 +36,8 @@ message TokenResponse {
     string token = 1;
     // RefreshToken.
     string refresh_token = 2;
+    // AccountName with the name of the account where the token is valid
+    string account_name = 3;
+    // EnvironmentName with the name of the account where the token is valid
+    string environment_name = 4;
 }

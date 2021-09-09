@@ -183,6 +183,10 @@ func (m *TokenResponse) Validate() error {
 
 	// no validation rules for RefreshToken
 
+	// no validation rules for AccountName
+
+	// no validation rules for EnvironmentName
+
 	return nil
 }
 
