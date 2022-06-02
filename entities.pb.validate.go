@@ -15,7 +15,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/golang/protobuf/ptypes"
+	"google.golang.org/protobuf/types/known/anypb"
 )
 
 // ensure the imports are used
@@ -30,22 +30,52 @@ var (
 	_ = time.Duration(0)
 	_ = (*url.URL)(nil)
 	_ = (*mail.Address)(nil)
-	_ = ptypes.DynamicAny{}
+	_ = anypb.Any{}
 )
 
-// define the regex for a UUID once up-front
-var _entities_uuidPattern = regexp.MustCompile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
-
 // Validate checks the field values on EmptyRequest with the rules defined in
-// the proto definition for this message. If any rules are violated, an error
-// is returned.
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
 func (m *EmptyRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on EmptyRequest with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in EmptyRequestMultiError, or
+// nil if none found.
+func (m *EmptyRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *EmptyRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
+	var errors []error
+
+	if len(errors) > 0 {
+		return EmptyRequestMultiError(errors)
+	}
 	return nil
 }
+
+// EmptyRequestMultiError is an error wrapping multiple validation errors
+// returned by EmptyRequest.ValidateAll() if the designated constraints aren't met.
+type EmptyRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m EmptyRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m EmptyRequestMultiError) AllErrors() []error { return m }
 
 // EmptyRequestValidationError is the validation error returned by
 // EmptyRequest.Validate if the designated constraints aren't met.
@@ -102,11 +132,26 @@ var _ interface {
 } = EmptyRequestValidationError{}
 
 // Validate checks the field values on OpResponse with the rules defined in the
-// proto definition for this message. If any rules are violated, an error is returned.
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
 func (m *OpResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on OpResponse with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in OpResponseMultiError, or
+// nil if none found.
+func (m *OpResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *OpResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
+
+	var errors []error
 
 	// no validation rules for Status
 
@@ -114,8 +159,27 @@ func (m *OpResponse) Validate() error {
 
 	// no validation rules for UserInfo
 
+	if len(errors) > 0 {
+		return OpResponseMultiError(errors)
+	}
 	return nil
 }
+
+// OpResponseMultiError is an error wrapping multiple validation errors
+// returned by OpResponse.ValidateAll() if the designated constraints aren't met.
+type OpResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m OpResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m OpResponseMultiError) AllErrors() []error { return m }
 
 // OpResponseValidationError is the validation error returned by
 // OpResponse.Validate if the designated constraints aren't met.
@@ -172,12 +236,26 @@ var _ interface {
 } = OpResponseValidationError{}
 
 // Validate checks the field values on TokenResponse with the rules defined in
-// the proto definition for this message. If any rules are violated, an error
-// is returned.
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
 func (m *TokenResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on TokenResponse with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in TokenResponseMultiError, or
+// nil if none found.
+func (m *TokenResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *TokenResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
+
+	var errors []error
 
 	// no validation rules for Token
 
@@ -187,8 +265,28 @@ func (m *TokenResponse) Validate() error {
 
 	// no validation rules for EnvironmentName
 
+	if len(errors) > 0 {
+		return TokenResponseMultiError(errors)
+	}
 	return nil
 }
+
+// TokenResponseMultiError is an error wrapping multiple validation errors
+// returned by TokenResponse.ValidateAll() if the designated constraints
+// aren't met.
+type TokenResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m TokenResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m TokenResponseMultiError) AllErrors() []error { return m }
 
 // TokenResponseValidationError is the validation error returned by
 // TokenResponse.Validate if the designated constraints aren't met.
@@ -243,3 +341,220 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = TokenResponseValidationError{}
+
+// Validate checks the field values on GenericListRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *GenericListRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GenericListRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GenericListRequestMultiError, or nil if none found.
+func (m *GenericListRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GenericListRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for IncludeYamlConversion
+
+	// no validation rules for IncludeJsonConversion
+
+	if len(errors) > 0 {
+		return GenericListRequestMultiError(errors)
+	}
+	return nil
+}
+
+// GenericListRequestMultiError is an error wrapping multiple validation errors
+// returned by GenericListRequest.ValidateAll() if the designated constraints
+// aren't met.
+type GenericListRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GenericListRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GenericListRequestMultiError) AllErrors() []error { return m }
+
+// GenericListRequestValidationError is the validation error returned by
+// GenericListRequest.Validate if the designated constraints aren't met.
+type GenericListRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GenericListRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GenericListRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GenericListRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GenericListRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GenericListRequestValidationError) ErrorName() string {
+	return "GenericListRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e GenericListRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGenericListRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GenericListRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GenericListRequestValidationError{}
+
+// Validate checks the field values on RemoveGenericRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *RemoveGenericRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RemoveGenericRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// RemoveGenericRequestMultiError, or nil if none found.
+func (m *RemoveGenericRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RemoveGenericRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if utf8.RuneCountInString(m.GetName()) < 1 {
+		err := RemoveGenericRequestValidationError{
+			field:  "Name",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return RemoveGenericRequestMultiError(errors)
+	}
+	return nil
+}
+
+// RemoveGenericRequestMultiError is an error wrapping multiple validation
+// errors returned by RemoveGenericRequest.ValidateAll() if the designated
+// constraints aren't met.
+type RemoveGenericRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RemoveGenericRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RemoveGenericRequestMultiError) AllErrors() []error { return m }
+
+// RemoveGenericRequestValidationError is the validation error returned by
+// RemoveGenericRequest.Validate if the designated constraints aren't met.
+type RemoveGenericRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RemoveGenericRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RemoveGenericRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RemoveGenericRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RemoveGenericRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RemoveGenericRequestValidationError) ErrorName() string {
+	return "RemoveGenericRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e RemoveGenericRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRemoveGenericRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RemoveGenericRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RemoveGenericRequestValidationError{}

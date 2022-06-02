@@ -41,3 +41,21 @@ message TokenResponse {
     // EnvironmentName with the name of the account where the token is valid
     string environment_name = 4;
 }
+
+//
+// Generic
+//
+
+// GenericListRequest with the information required to List entities
+message   GenericListRequest {
+    // IncludeYAMLConversion determines if the raw YAML representation is also included.    
+    bool include_yaml_conversion = 3;
+    // IncludeJSONConversion determines if the raw JSON representation is also included.
+    bool include_json_conversion = 4;
+}
+
+// RemoveGenericRequest with the information required to identify an entity for removal.
+message RemoveGenericRequest{
+    // Name of the component.
+    string name = 1 [(validate.rules).string.min_len = 1];
+}
