@@ -265,6 +265,8 @@ func (m *TokenResponse) validate(all bool) error {
 
 	// no validation rules for EnvironmentName
 
+	// no validation rules for PlatformUsername
+
 	if len(errors) > 0 {
 		return TokenResponseMultiError(errors)
 	}

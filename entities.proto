@@ -40,6 +40,8 @@ message TokenResponse {
     string account_name = 3;
     // EnvironmentName with the name of the account where the token is valid
     string environment_name = 4;
+    // PlatformUsername with the username associated with the customer making the login request as registered in the platform.
+    string platform_username = 5;
 }
 
 //
